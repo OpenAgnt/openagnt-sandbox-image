@@ -46,6 +46,8 @@ RUN pnpm add -g cline@3.0.73 --allow-build=cline --reporter=silent
 RUN pnpm add -g command-code@1.88.1 --allow-build=command-code --reporter=silent
 RUN pnpm add -g droid@0.248.0 --allow-build=droid --reporter=silent
 RUN pnpm store prune || true
+# Free build-runner disk before the remaining installs (the full image is large).
+RUN rm -rf /home/user/.cache /root/.cache /home/user/.npm /root/.npm /tmp/* 2>/dev/null || true
 
 # --- Agents whose npm postinstall hangs in this environment (installed directly) ---
 # junie: the package downloads this same release zip from its postinstall.
@@ -63,10 +65,8 @@ RUN set -eux; \
     pnpm add -g @kilocode/cli-linux-x64@7.8.18 --reporter=silent; \
     BIN="$(find /home/user/.local/share/pnpm -path '*cli-linux-x64/bin/kilo' -type f | head -1)"; \
     test -n "$BIN"; \
-    mkdir -p /opt/kilo; \
-    cp -a "$(dirname "$BIN")"/. /opt/kilo/; \
-    chmod +x /opt/kilo/kilo; \
-    ln -sf /opt/kilo/kilo /usr/local/bin/kilo
+    chmod +x "$BIN"; \
+    ln -sf "$BIN" /usr/local/bin/kilo
 
 # omp: pure JS dependency tree (no postinstall); install without build flags.
 RUN pnpm add -g @oh-my-pi/pi-coding-agent@18.12.6 --reporter=silent
