@@ -93,12 +93,9 @@ RUN set -eux; \
 # fx (binary)
 
 # Caches stay ephemeral; config lives on the volume at runtime.
-RUN mkdir -p /workspace \
-    && chown -R user:user /workspace /home/user /opt/junie /opt/kilo
+RUN mkdir -p /workspace
 
-USER user
-
-# uv (pinned) — used to resolve gptme / vibe / deepagents cleanly.
+# uv (pinned) - used to resolve gptme / vibe / deepagents cleanly.
 RUN set -eux; \
     curl -fsSL https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-gnu.tar.gz -o /tmp/uv.tgz; \
     echo "f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645  /tmp/uv.tgz" | sha256sum -c -; \
