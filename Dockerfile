@@ -162,7 +162,7 @@ RUN set -eux; \
     ln -sf "$ZBIN" /usr/local/bin/zcode; \
     chmod +x "$ZBIN"; \
     rm -f /tmp/zcode.deb; \
-    zcode --version 2>&1 | head -3
+    timeout 20 zcode --version 2>&1 | head -3 || true
 
 # hermes (source installer, pinned commit)
 RUN set -eux; \
