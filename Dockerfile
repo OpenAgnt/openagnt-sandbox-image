@@ -144,7 +144,7 @@ RUN set -eux; \
 
 # fx (setup script)
 RUN set -eux; \
-    HOME=/home/user bash -c 'curl -fsSL https://fx.sh/setup.sh -o /tmp/fx.sh && sh /tmp/fx.sh'; \
+    HOME=/home/user bash -c 'curl -fsSL https://fx.sh/setup.sh -o /tmp/fx.sh && bash /tmp/fx.sh'; \
     ln -sf /home/user/.local/bin/fx /usr/local/bin/fx; \
     fx --version
 
